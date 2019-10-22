@@ -1,27 +1,7 @@
+declare var require: (deps: string[]) => void;
+
 import { Board } from "./Board";
-import { Card } from "./Card";
-
-class Game{
-  player1: Player;
-  player2: Player;
-  board : Board;
-  timeByTurn : Number;
-  timestampBegin : Number;
-  timestampEnd : Number;
-}
-
-class Player{
-  pseudo : String;
-  victories : Number;
-  defeats : Number;
-  draws : Number;
-  deck : Deck;
-
-}
-
-class Deck{
-  cards: Array<Card>;
-}
+import { Card  } from "./Card";
 
 let boardGame = new Board();
 

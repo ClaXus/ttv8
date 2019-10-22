@@ -1,4 +1,2 @@
---module umd
-Board.ts
-Card.ts
+--module amd
 tt.ts
