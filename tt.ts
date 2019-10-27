@@ -2,6 +2,13 @@ declare var require: (deps: string[]) => void;
 
 import { Board } from "./Board";
 import { Card  } from "./Card";
+import { Player  } from "./Player";
+
+export class tt{
+  sessionPlayer : string;
+  playerSession : Player;
+
+}
 
 let boardGame = new Board();
 
@@ -25,4 +32,4 @@ boardGame.addCard(6, card7);
 boardGame.addCard(7, card8);
 boardGame.addCard(8, card9);
 
-document.body.innerText = boardGame.displpayBoard();
+document.body.innerText += boardGame.displpayBoard();
