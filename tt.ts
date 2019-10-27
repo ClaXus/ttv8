@@ -2,6 +2,29 @@ import { Board } from "./Board";
 import { Card  } from "./Card";
 import { Player  } from "./Player";
 
+function tableCreate() {
+  var body = document.getElementById('game');
+  var tbl = document.createElement('table');
+  tbl.align = "center";
+  tbl.style.width = '3OOpx';
+  tbl.setAttribute('border', '1');
+  var tbdy = document.createElement('tbody');
+  for (var i = 0; i < 3; i++) {
+    var tr = document.createElement('tr');
+    tr.style.height = '62px';
+    for (var j = 0; j < 3; j++) {
+        var td = document.createElement('td');
+        td.style.width = '62px';
+        var img = document.createElement("img");
+        img.src = "./Joliflor.png"
+        td.appendChild(img);
+        tr.appendChild(td);
+    }
+    tbdy.appendChild(tr);
+  }
+  tbl.appendChild(tbdy);
+  body.appendChild(tbl)
+}
 
 export class tt{
   sessionPlayer : string;
@@ -28,8 +51,10 @@ export class tt{
     boardGame.addCard(6, card7);
     boardGame.addCard(7, card8);
     boardGame.addCard(8, card9);
-    var textnode = document.createTextNode(boardGame.displpayBoard());
-    document.getElementById("game").appendChild(textnode);
+    //var textnode = document.createTextNode(boardGame.displpayBoard());
+    //document.getElementById("game").appendChild(textnode);
+
+    tableCreate();
 
   }
 }
