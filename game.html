@@ -5,21 +5,27 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="./bootstrap.min.css">
+      <link rel="stylesheet" href="./game.css">
       <!--<script src="./jquery.min.js"></script>
       <script src="./bootstrap.min.js"></script>-->
     </head>
     <body>
-        <script data-main="config" src="./require.js"></script>
+
+      <script data-main="config" src="require.js"></script>
         <div class="jumbotron text-center">
-          <h1>My First Bootstrap Page</h1>
-          <p>Resize this responsive page to see the effect!</p>
+          <h1>Essai V8</h1>
+          <p>Je développe avec TypeScript et </p>
         </div>
         <div class="container">
           <div class="row">
-            <div class="col-sm-4">
-              <h3>Column 1</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+            <div class="col-sm-4" id="user-menu">
+              <h3>Menu</h3>
+              <button type="button" class="btn btn-default">Mes cartes</button>
+              </br>
+              <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Toggle first element</a>
+              <div class="collapse multi-collapse" id="multiCollapseExample1">
+                  <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.<p>
+              </div>
             </div>
             <div class="col-sm-4">
               <h3>Column 2</h3>
@@ -32,6 +38,9 @@
               <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
             </div>
           </div>
+        </div>
+        <div id="game">
+          
         </div>
     </body>
 </html>

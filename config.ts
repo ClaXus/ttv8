@@ -1,21 +1,32 @@
-declare var require: (deps: string[]) => void;
-
 require.config({
-  baseUrl: './',
-
-  paths: {
-    "jquery": './jquery.min',
-    "bootstrap": './bootstrap.min'
-  },
-
-  shim: {
-    "jquery": {
-      exports: '$'
+    baseUrl: './',
+    paths: {
+        'jquery': 'jquery.min',
+        'bootstrap': 'bootstrap.min',
+        'tt': 'tt'
     },
-    "bootstrap": {
-    deps: ['jquery']
+    shim: {
+        jquery: {
+            exports: '$'
+        },
+        bootstrap: {
+            deps: ["jquery"],
+            exports: "bootstrap"
+        },
+        tt: {
+            exports: "tt"
+        }
     }
-  }
-});
+  });
 
-require(["tt"]);
+  require([
+       'jquery'
+      , 'bootstrap'
+      , 'tt'
+      ],
+      ($, bootstrap, tt) => {
+      $(() => {
+        var appMain = new tt.tt();
+        appMain.run();
+      });
+  });

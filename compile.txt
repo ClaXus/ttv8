@@ -1,2 +1,4 @@
---module amd
+--module umd
+require.d.ts
+config.ts
 tt.ts
