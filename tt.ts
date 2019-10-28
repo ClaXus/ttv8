@@ -2,7 +2,15 @@ import { Board } from "./Board";
 import { Card  } from "./Card";
 import { Player  } from "./Player";
 
-function tableCreate() {
+function selectCard(objectCurrent, x){
+  objectCurrent.selectedCard = x;
+  //alert(x);
+}
+function putCard(x, selectedSquare){
+  selectedSquare.appendChild(x.selectedCard);
+}
+
+function tableCreate(x) {
   var body = document.getElementById('game');
   var tbl = document.createElement('table');
   tbl.align = "center";
@@ -15,20 +23,42 @@ function tableCreate() {
     for (var j = 0; j < 3; j++) {
         var td = document.createElement('td');
         td.style.width = '62px';
+        td.classList.add("square" + ((j+i*3)+1));
+        /*td.addEventListener("click", function(){
+          putCard(x, td);
+        }.bind(null,td));*/
         var img = document.createElement("img");
-        img.src = "./Joliflor.png"
-        td.appendChild(img);
+        //img.src = "./Joliflor.png"
+        //td.appendChild(img);
         tr.appendChild(td);
     }
     tbdy.appendChild(tr);
   }
   tbl.appendChild(tbdy);
   body.appendChild(tbl)
+  var img = document.createElement("img");
+  img.src = "./Joliflor.png";
+  img.classList.add("card1");
+
+  for(var j=1; j<10; j++){
+    let selectedSquare = document.getElementsByClassName("square" + j)[0];
+    selectedSquare.addEventListener('click', function(){
+      putCard(x, selectedSquare);
+    },false);
+  }
+  img.addEventListener("click", function(){
+    selectCard(x, img)
+  }, false);
+
+  body.appendChild(img);
+
 }
 
 export class tt{
   sessionPlayer : string;
   playerSession : Player;
+  selectedCard : HTMLImageElement;
+
   public run() {
     let boardGame = new Board();
 
@@ -54,7 +84,7 @@ export class tt{
     //var textnode = document.createTextNode(boardGame.displpayBoard());
     //document.getElementById("game").appendChild(textnode);
 
-    tableCreate();
+    tableCreate(this);
 
   }
 }
