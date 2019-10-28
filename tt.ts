@@ -60,7 +60,7 @@ export class tt{
         x.putCard(selectedSquare);
       },false);
     }
-    alert(this.cardData);
+
     var jsonParse = JSON.parse(this.cardData);
 
     for(var j=0;j<jsonParse.length;j++){
