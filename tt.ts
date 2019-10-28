@@ -2,64 +2,87 @@ import { Board } from "./Board";
 import { Card  } from "./Card";
 import { Player  } from "./Player";
 
-function selectCard(objectCurrent, x){
-  objectCurrent.selectedCard = x;
-  //alert(x);
-}
-function putCard(x, selectedSquare){
-  selectedSquare.appendChild(x.selectedCard);
-}
-
-function tableCreate(x) {
-  var body = document.getElementById('game');
-  var tbl = document.createElement('table');
-  tbl.align = "center";
-  tbl.style.width = '3OOpx';
-  tbl.setAttribute('border', '1');
-  var tbdy = document.createElement('tbody');
-  for (var i = 0; i < 3; i++) {
-    var tr = document.createElement('tr');
-    tr.style.height = '62px';
-    for (var j = 0; j < 3; j++) {
-        var td = document.createElement('td');
-        td.style.width = '62px';
-        td.classList.add("square" + ((j+i*3)+1));
-        /*td.addEventListener("click", function(){
-          putCard(x, td);
-        }.bind(null,td));*/
-        var img = document.createElement("img");
-        //img.src = "./Joliflor.png"
-        //td.appendChild(img);
-        tr.appendChild(td);
-    }
-    tbdy.appendChild(tr);
-  }
-  tbl.appendChild(tbdy);
-  body.appendChild(tbl)
-  var img = document.createElement("img");
-  img.src = "./Joliflor.png";
-  img.classList.add("card1");
-
-  for(var j=1; j<10; j++){
-    let selectedSquare = document.getElementsByClassName("square" + j)[0];
-    selectedSquare.addEventListener('click', function(){
-      putCard(x, selectedSquare);
-    },false);
-  }
-  img.addEventListener("click", function(){
-    selectCard(x, img)
-  }, false);
-
-  body.appendChild(img);
-
+function loadJSON(callback) {
+   var xobj = new XMLHttpRequest();
+   xobj.overrideMimeType("application/json");
+   xobj.open('GET', ('./cards.json'), true); // Replace 'my_data' with the path to your file
+   xobj.onreadystatechange = function () {
+         if (xobj.readyState == 4) {
+           // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+           callback(xobj.responseText);
+         }
+   };
+   xobj.send(null);
 }
 
 export class tt{
+  selectCard(x){
+    this.selectedCard = x;
+    //alert(x);
+  }
+  putCard(selectedSquare){
+    selectedSquare.appendChild(this.selectedCard);
+    this.selectedCard = null;
+  }
+
+  tableCreate() {
+    var x = this;
+    var body = document.getElementById('game');
+    var tbl = document.createElement('table');
+    tbl.align = "center";
+    tbl.style.width = '3OOpx';
+    tbl.setAttribute('border', '1');
+    var tbdy = document.createElement('tbody');
+    for (var i = 0; i < 3; i++) {
+      var tr = document.createElement('tr');
+      tr.style.height = '62px';
+      for (var j = 0; j < 3; j++) {
+          var td = document.createElement('td');
+          td.style.width = '62px';
+          td.classList.add("square" + ((j+i*3)+1));
+          /*td.addEventListener("click", function(){
+            putCard(x, td);
+          }.bind(null,td));*/
+          var img = document.createElement("img");
+          //img.src = "./Joliflor.png"
+          //td.appendChild(img);
+          tr.appendChild(td);
+      }
+      tbdy.appendChild(tr);
+    }
+    tbl.appendChild(tbdy);
+    body.appendChild(tbl)
+
+    // iterate to add the possibility to put on square
+    for(var j=1; j<10; j++){
+      let selectedSquare = document.getElementsByClassName("square" + j)[0];
+      selectedSquare.addEventListener('click', function(){
+        x.putCard(selectedSquare);
+      },false);
+    }
+    alert(this.cardData);
+    var jsonParse = JSON.parse(this.cardData);
+
+    for(var j=0;j<jsonParse.length;j++){
+          let img = document.createElement("img");
+          img.src = jsonParse[j].link;
+          img.classList.add("card" + i);
+          img.addEventListener("click", function(){
+            x.selectCard(img)
+          }, false);
+          body.appendChild(img);
+    }
+
+
+  }
+
   sessionPlayer : string;
   playerSession : Player;
   selectedCard : HTMLImageElement;
+  cardData : string;
 
-  public run() {
+  public run(jsonFile) {
+    this.cardData = jsonFile;
     let boardGame = new Board();
 
     let card1 = new Card(5, 5, 5, 6);
@@ -84,7 +107,7 @@ export class tt{
     //var textnode = document.createTextNode(boardGame.displpayBoard());
     //document.getElementById("game").appendChild(textnode);
 
-    tableCreate(this);
+    this.tableCreate();
 
   }
 }
