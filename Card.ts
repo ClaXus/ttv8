@@ -3,14 +3,14 @@ import {Elemental} from "./Elemental";
 export class Card{
   idCard : number;
   lvl : number;
-  upValue : Number;
-  rightValue : Number;
-  downValue : Number;
-  leftValue : Number;
+  upValue : number;
+  rightValue : number;
+  downValue : number;
+  leftValue : number;
   cardImage : string;
   elemental : Elemental;
 
-  constructor(idCard : number, lvl : number, upV : Number, rV : Number, dV : Number, lV : Number, cardImage : string, elemental : Elemental){
+  constructor(idCard : number, lvl : number, upV : number, rV : number, dV : number, lV : number, cardImage : string, elemental : Elemental){
     this.idCard = idCard;
     this.lvl = lvl;
     this.upValue = upV;

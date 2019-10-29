@@ -6,34 +6,35 @@ import { Deck  } from "./Deck";
 import { Elemental  } from "./Elemental";
 import { Rule  } from "./Rule";
 
+
 export class tt{
   sessionPlayer : string;
   playerSession : Player;
   selectedCard : HTMLImageElement;
   fullDeck : Deck;
   currentGame : Game;
+  mylistener:EventListener;
+
+  evalBoard(){
+    for(var j=0;j<10;j++){
+      if(this.currentGame.board.statusTable[j]==1){
+        //alert("position " + (j) + " is blue" );
+        var img = <HTMLImageElement> document.getElementsByClassName("square"+ (j))[0];
+        img.style.backgroundColor = "royalblue";
+      }
+      else if(this.currentGame.board.statusTable[j]==2){
+        //alert("position " + (j) + " is red" );
+        var img = <HTMLImageElement> document.getElementsByClassName("square"+ (j))[0];
+        img.style.backgroundColor = "orangered";
+      }
+    }
+  }
 
   selectCard(x){
     this.selectedCard = x;
+    //alert("carte sélectionnée" + x.className);
   }
 
-  putCard(selectedSquare, position){
-    selectedSquare.appendChild(this.selectedCard);
-    var selectedCardNumber = this.selectedCard.className[this.selectedCard.className.length-1];
-    this.currentGame.board.addCard(position, this.fullDeck.cards[selectedCardNumber]);
-    this.selectedCard = null;
-  }
-
-  addClickableBoard(){
-        var x = this;
-        // iterate to add the possibility to put on square - AJOUT DES CASES CLIQUABLES
-        for(var j=1; j<10; j++){
-          let selectedSquare = document.getElementsByClassName("square" + j)[0];
-          selectedSquare.addEventListener('click', function(){
-            x.putCard(selectedSquare, j);
-          },false);
-        }
-  }
 
   allocateCards(){
     var x = this;
@@ -42,10 +43,11 @@ export class tt{
           let img = document.createElement("img");
           img.src = this.currentGame.deckPlayer1.cards[j].cardImage;
           img.classList.add("card" + j);
+          //img.tagName
+          //this.mylistener = (e:Event) => x.selectCard(img);
           img.addEventListener("click", function(){
-            x.selectCard(img)
-          }, false);
-          img.style.backgroundColor = "royalblue";
+            x.selectCard(img);
+          });
           document.getElementById("player1").appendChild(img);
     }
     for(j=0;j<5;j++){
@@ -53,25 +55,48 @@ export class tt{
       img.src = this.currentGame.deckPlayer2.cards[j].cardImage;
       img.classList.add("card" + (5+j));
       img.addEventListener("click", function(){
-        x.selectCard(img)
-      }, false);
-      img.style.backgroundColor = "orangered";
+        x.selectCard(img);
+      });
       document.getElementById("player2").appendChild(img);
     }
   }
 
+
+  putCard(selectedSquare, position){
+    var currentPlayer;
+    var selectedCardNumber = parseInt(this.selectedCard.className[(this.selectedCard.className.length)-1]);
+
+    if((selectedCardNumber)<5){
+      currentPlayer = this.currentGame.player1;
+    }
+    else{
+        currentPlayer = this.currentGame.player2;
+    }
+    var isOkay = this.currentGame.putCard(position, this.fullDeck.cards[selectedCardNumber], currentPlayer);
+    if(isOkay){
+      selectedSquare.appendChild(this.selectedCard);
+      this.selectedCard.removeEventListener("click", this.mylistener);
+    }
+    this.evalBoard();
+    this.selectedCard = null;
+  }
+
+  addClickableBoard(){
+        var x = this;
+        // iterate to add the possibility to put on square - AJOUT DES CASES CLIQUABLES
+        for(var j=1; j<10; j++){
+          let selectedSquare = document.getElementsByClassName("square" + j)[0];
+          let pos = j;
+          selectedSquare.addEventListener('click', function(){
+            x.putCard(selectedSquare, pos);
+          },false);
+        }
+  }
   launchParty($) {
+
     this.currentGame.board.displayGraphicBoard();
     this.addClickableBoard();
     this.allocateCards();
-
-    document.getElementById("player1").style.margin = "0 auto";
-    document.getElementById("player1").style.textAlign = "center";
-    document.getElementById("player1").style.paddingBottom = "2px";
-
-    document.getElementById("player2").style.margin = "0 auto";
-    document.getElementById("player2").style.textAlign = "center";
-    document.getElementById("player2").style.paddingTop = "2px";
   }
 
   jsonToCards(jsonCards){
@@ -82,28 +107,10 @@ export class tt{
           let card = new Card(jsonParse[j].idCard, jsonParse[j].lvl, jsonParse[j].upValue, jsonParse[j].rightValue,
             jsonParse[j].downValue, jsonParse[j].leftValue, jsonParse[j].link, new Elemental(jsonParse[j].elemental));
           fullDeck.push(card);
-
-          /*let img = document.createElement("img");
-          img.src = jsonParse[j].link;
-
-          img.classList.add("card" + j);
-          img.addEventListener("click", function(){
-            x.selectCard(img)
-          }, false);
-          if(j<5){
-            img.style.backgroundColor = "royalblue";
-            document.getElementById("player1").appendChild(img);
-          }
-          else{
-              img.style.backgroundColor = "orangered";
-              document.getElementById("player2").appendChild(img);
-          }*/
     }
 
     return new Deck(fullDeck);
   }
-
-
 
   public run(jsonFile, $) {
     this.fullDeck = this.jsonToCards(jsonFile);
@@ -143,4 +150,21 @@ export class tt{
           img.style.backgroundColor = "orangered";
           document.getElementById("player2").appendChild(img);
       }
+}*/
+
+
+/*let img = document.createElement("img");
+img.src = jsonParse[j].link;
+
+img.classList.add("card" + j);
+img.addEventListener("click", function(){
+  x.selectCard(img)
+}, false);
+if(j<5){
+  img.style.backgroundColor = "royalblue";
+  document.getElementById("player1").appendChild(img);
+}
+else{
+    img.style.backgroundColor = "orangered";
+    document.getElementById("player2").appendChild(img);
 }*/

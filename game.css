@@ -1,1 +1,10 @@
-
+#player1{
+  margin:0 auto;
+  text-align: center;
+  padding-bottom: 2px;
+}
+#player2{
+  margin:0 auto;
+  text-align: center;
+  padding-top: 2px;
+}

@@ -2,8 +2,10 @@ import {Card} from "./Card";
 
 export class Board{
    table : Array<Card>;
+   statusTable : Array<number>;
    constructor(){
-     this.table = new Array(9);
+     this.table = new Array<Card>(9);
+     this.statusTable = new Array<number>(9);
    }
    addCard(position : number, card : Card){
      this.table[position]=card;
@@ -35,25 +37,5 @@ export class Board{
      }
      tbl.appendChild(tbdy);
      body.appendChild(tbl);
-   }
-
-   displpayBoard(){
-     var strBoard = "";
-     var i = 0;
-     while(i<3){
-       strBoard+=("["+this.table[i].displayCard()+"]");
-       i++;
-     }
-     strBoard+= "\n";
-     while(i<6){
-       strBoard+=("["+this.table[i].displayCard()+"]");
-       i++;
-     }
-     strBoard+= "\n";
-     while(i<9){
-       strBoard+=("["+this.table[i].displayCard()+"]");
-       i++;
-     }
-     return strBoard+"";
    }
 }
