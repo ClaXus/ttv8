@@ -8,4 +8,8 @@ export class Player{
   defeats : Number;
   draws : Number;
   deck : Deck;
+
+  constructor(){
+    
+  }
 }
