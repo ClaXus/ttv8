@@ -21,6 +21,7 @@ export class tt{
         //alert("position " + (j) + " is blue" );
         var img = <HTMLImageElement> document.getElementsByClassName("square"+ (j))[0];
         img.style.backgroundColor = "royalblue";
+        document.getElementById('score').innerText = ""+this.currentGame.score.toString()+"-"+(10-this.currentGame.score).toString();
       }
       else if(this.currentGame.board.statusTable[j]==2){
         //alert("position " + (j) + " is red" );
