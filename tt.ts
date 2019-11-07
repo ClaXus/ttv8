@@ -26,6 +26,7 @@ export class tt{
         //alert("position " + (j) + " is red" );
         var img = <HTMLImageElement> document.getElementsByClassName("square"+ (j))[0];
         img.style.backgroundColor = "orangered";
+        document.getElementById('score').innerText = ""+this.currentGame.score.toString()+"-"+(10-this.currentGame.score).toString();
       }
     }
   }
@@ -75,10 +76,41 @@ export class tt{
     var isOkay = this.currentGame.putCard(position, this.fullDeck.cards[selectedCardNumber], currentPlayer);
     if(isOkay){
       selectedSquare.appendChild(this.selectedCard);
-      this.selectedCard.removeEventListener("click", this.mylistener);
+      var x = this;
+      this.selectedCard.addEventListener("click", function(){
+        x.selectedCard = null;
+      });
     }
     this.evalBoard();
     this.selectedCard = null;
+  }
+
+  displayGraphicBoard(){
+    var body = document.getElementById('tableTest');
+    var tbl = document.createElement('table');
+    tbl.align = "center";
+    tbl.style.width = '3OOpx';
+    tbl.setAttribute('border', '1');
+    tbl.id = "gameTable";
+    var tbdy = document.createElement('tbody');
+    for (var i = 0; i < 3; i++) {
+      var tr = document.createElement('tr');
+      tr.style.height = '62px';
+      for (var j = 0; j < 3; j++) {
+          var td = document.createElement('td');
+          td.style.width = '62px';
+          td.classList.add("square" + ((j+i*3)+1));
+          var img = document.createElement("img");
+          tr.appendChild(td);
+      }
+      tbdy.appendChild(tr);
+    }
+    tbl.appendChild(tbdy);
+    body.appendChild(tbl);
+
+    var scoreBoard = document.getElementById('score');
+    scoreBoard.innerText = '5-5';
+
   }
 
   addClickableBoard(){
@@ -94,7 +126,7 @@ export class tt{
   }
   launchParty($) {
 
-    this.currentGame.board.displayGraphicBoard();
+    this.displayGraphicBoard();
     this.addClickableBoard();
     this.allocateCards();
   }

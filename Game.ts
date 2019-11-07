@@ -16,6 +16,7 @@ export class Game{
   timestampBegin : Number;
   timestampEnd : Number;
   rules : Array<Rule>;
+  score : number;
 
   constructor(player1 : Player, player2 : Player, timeByTurn : number, deckPlayer1 : Deck, deckPlayer2 : Deck, rules : Array<Rule>){
     this.player1 = player1;
@@ -27,6 +28,7 @@ export class Game{
     this.deckPlayer2 = deckPlayer2;
     this.timeByTurn = timeByTurn;
     this.rules = rules;
+    this.score = 5;
   }
 
   putCard(position : number, card : Card, player : Player){
@@ -52,6 +54,7 @@ export class Game{
 
   evalPosition(pos : number, card : Card){
     let playerStatus;
+    let isTaken = 0;
     if(this.turn%2!=0){
       playerStatus = 1;
     }
@@ -64,6 +67,7 @@ export class Game{
       if(this.board.table[pos-3]!=undefined){
         if(card.upValue>this.board.table[pos-3].downValue){
           this.board.statusTable[pos-2] = playerStatus;
+          isTaken+=1;
         }
       }
     }
@@ -72,6 +76,7 @@ export class Game{
       if(this.board.table[pos-1]!=undefined){
         if(card.leftValue>this.board.table[pos-1].rightValue){
           this.board.statusTable[pos] = playerStatus;
+          isTaken+=1;
         }
       }
     }
@@ -80,6 +85,7 @@ export class Game{
       if(this.board.table[pos+1]!=undefined){
         if(card.rightValue>this.board.table[pos+1].leftValue){
           this.board.statusTable[pos+2] = playerStatus;
+          isTaken+=1;
         }
       }
     }
@@ -88,14 +94,13 @@ export class Game{
       if(this.board.table[pos+3]!=undefined){
           if(card.downValue> this.board.table[pos+3].upValue){
             this.board.statusTable[pos+4] = playerStatus;
+            isTaken+=1;
           }
       }
     }
+    if(playerStatus==1)
+      this.score+=isTaken;
+    else
+      this.score-=isTaken;
   }
-
-
-
-
-
-
 }
